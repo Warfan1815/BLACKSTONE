@@ -2,6 +2,7 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 150
 	anchored = TRUE
+	var/fire_damage
 
 /obj/structure/flora/Initialize()
 	..()
