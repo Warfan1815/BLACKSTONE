@@ -9,6 +9,21 @@
 	if(isclosedturf(loc))
 		return INITIALIZE_HINT_QDEL
 
+/obj/structure/flora/fire_act()
+	if(isturf(loc))
+		var/turf/T = loc
+		if(T.intact && level == 1) //fire can't damage things hidden below the floor.
+			return
+	if(added && !(resistance_flags & FIRE_PROOF))
+		fire_damage = CLAMP(0.02 * added, 0, 20)
+		take_damage(fire_damage, BURN, "fire", 0)
+	if(!(resistance_flags & ON_FIRE) && (resistance_flags & FLAMMABLE) && !(resistance_flags & FIRE_PROOF))
+		resistance_flags |= ON_FIRE
+		SSfire_burning.processing[src] = src
+		add_overlay(GLOB.fire_overlay, TRUE)
+		playsound(src, 'sound/misc/enflame.ogg', 100, TRUE)
+		return TRUE
+
 /obj/structure/flora/rogueflora
     icon = 'icons/obj/flora/rogueflora.dmi'
 
